@@ -17,15 +17,16 @@ It analyzes files without modifying the original evidence and generates structur
 - Multiple report storage
 - Terminal-based interface
 
-## Project Structure
+## Requirements
 
-```text
-spectra/
-├── analyzer.py
-├── evidence.txt
-├── hash_engine.py
-├── metadata.py
-├── report.py
-├── spectra.py
-└── reports/
-```
+- Python 3
+- Git
+
+No external Python packages are required.
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Victus-arc/spectra-analyzer.git
