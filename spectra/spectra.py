@@ -194,7 +194,7 @@ def view_reports():
 def show_banner():
     print("\n")
     print("╔══════════════════════════════════════╗")
-    print("║             SPECTRA v1.0             ║")
+    print("║                SPECTRA            ║")
     print("║        DIGITAL EVIDENCE ANALYZER     ║")
     print("╚══════════════════════════════════════╝")
 
