@@ -14,6 +14,7 @@ It analyzes files without modifying the original evidence and generates structur
 - Text analysis for supported text-based files
 - Integrity verification using known hashes
 - Structured report generation
+- JSON report export
 - Read-only evidence workflow
 
 ## Requirements
@@ -104,7 +105,7 @@ This tool is designed to be read-only and safe by default. The code includes val
 
 ## Report Output
 
-Generated reports are saved in the `reports/` directory as text files.
+Generated reports are saved in the `reports/` directory as text or JSON files.
 
 ## Known Limitations
 
@@ -125,5 +126,5 @@ Planned or possible improvements include:
 - GUI or web interface
 - richer file classification
 - better binary analysis
-- export to JSON or HTML
+- export to HTML
 - automated tests for more analysis scenarios
