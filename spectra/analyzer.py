@@ -1,15 +1,37 @@
-def analyze_text_file(filename):
-    with open(filename, "r", encoding="utf-8", errors="replace") as file:
-        text = file.read()
+import os
 
-    lines = text.splitlines()
-    words = text.split()
+MAX_TEXT_FILE_SIZE = 50 * 1024 * 1024  # 50 MB safety cap for text analysis
+
+
+def analyze_text_file(filename):
+    """Analyze a text file without loading the full file into memory."""
+    file_size = os.path.getsize(filename)
+
+    if file_size > MAX_TEXT_FILE_SIZE:
+        raise ValueError(
+            f"File exceeds the safe analysis limit of {MAX_TEXT_FILE_SIZE / (1024 * 1024):.0f} MB."
+        )
+
+    lines = 0
+    words = 0
+    characters = 0
+    empty_lines = 0
+
+    with open(filename, "r", encoding="utf-8", errors="replace") as file:
+        for raw_line in file:
+            lines += 1
+            characters += len(raw_line)
+
+            if not raw_line.strip():
+                empty_lines += 1
+
+            words += len(raw_line.split())
 
     return {
-        "lines": len(lines),
-        "words": len(words),
-        "characters": len(text),
-        "empty_lines": sum(1 for line in lines if not line.strip()),
+        "lines": lines,
+        "words": words,
+        "characters": characters,
+        "empty_lines": empty_lines,
     }
 
 
