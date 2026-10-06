@@ -54,7 +54,10 @@ def validate_file_path(filename):
     if not filename:
         return False, "No file path entered."
 
-    safe_path = os.path.expanduser(filename)
+    if "\x00" in filename:
+        return False, "File path contains invalid null bytes."
+
+    safe_path = os.path.abspath(os.path.expanduser(filename))
 
     try:
         real_path = os.path.realpath(safe_path)
@@ -365,6 +368,10 @@ def analyze_file():
 
         error("File could not be read as text.")
 
+    except ValueError as err:
+
+        error(str(err))
+
     except OSError as err:
 
         error(f"Error accessing file: {err}")
@@ -509,7 +516,7 @@ def view_reports():
     print_line()
     print()
 
-    reports_folder = "reports"
+    reports_folder = os.path.abspath("reports")
 
     if not os.path.exists(reports_folder):
 
