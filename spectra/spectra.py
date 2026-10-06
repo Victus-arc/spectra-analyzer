@@ -1,4 +1,5 @@
 import os
+import re
 
 from hash_engine import calculate_sha256
 from metadata import get_file_metadata
@@ -45,6 +46,39 @@ BOLD = "\033[1m"
 
 
 # ============================================================
+# INPUT VALIDATION
+# ============================================================
+
+def validate_file_path(filename):
+    """Ensure the path is safe, readable, and points to a real file."""
+    if not filename:
+        return False, "No file path entered."
+
+    safe_path = os.path.expanduser(filename)
+
+    try:
+        real_path = os.path.realpath(safe_path)
+    except Exception:
+        return False, "Invalid file path."
+
+    if not os.path.exists(real_path):
+        return False, "File does not exist."
+
+    if not os.path.isfile(real_path):
+        return False, "Path is not a file (it may be a directory or special file)."
+
+    if not os.access(real_path, os.R_OK):
+        return False, "File is not readable."
+
+    return True, real_path
+
+
+def validate_sha256_hash(hash_string):
+    """Check if the hash is a valid SHA-256 hash value."""
+    return bool(re.fullmatch(r"[A-Fa-f0-9]{64}", hash_string))
+
+
+# ============================================================
 # TERMINAL FUNCTIONS
 # ============================================================
 
@@ -88,13 +122,13 @@ def show_banner():
     print(
         f"{GREEN}{BOLD}"
         r"""
- ███████╗██████╗ ███████╗ ██████╗████████╗██████╗  █████╗
- ██╔════╝██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗
- ███████╗██████╔╝█████╗  ██║        ██║   ██████╔╝███████║
- ╚════██║██╔═══╝ ██╔══╝  ██║        ██║   ██╔══██╗██╔══██║
- ███████║██║     ███████╗╚██████╗   ██║   ██║  ██║██║  ██║
- ╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
-"""
+  ███████╗██████╗ ███████╗ ██████╗████████╗██████╗  █████╗
+  ██╔════╝██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗
+  ███████╗██████╔╝█████╗  ██║        ██║   ██████╔╝███████║
+  ╚════██║██╔═══╝ ██╔══╝  ██║        ██║   ██╔══██╗██╔══██║
+  ███████║██║     ███████╗╚██████╗   ██║   ██║  ██║██║  ██║
+  ╚══════╝╚═╝     ╚══════╝ ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
+ """
         f"{RESET}"
     )
 
@@ -171,10 +205,13 @@ def analyze_file():
         "Enter evidence file path: "
     ).strip()
 
-    if not filename:
-        error("No file path entered.")
+    is_valid, validated_path = validate_file_path(filename)
+    if not is_valid:
+        error(validated_path)
         input("\nPress Enter to return...")
         return
+
+    filename = validated_path
 
     try:
 
@@ -285,19 +322,18 @@ def analyze_file():
         ).strip()
 
         if known_hash:
-
-            print()
-
-            if verify_integrity(
-                file_hash,
-                known_hash
-            ):
-
-                complete("INTEGRITY MATCH")
-
+            if not validate_sha256_hash(known_hash):
+                error("Invalid SHA-256 hash format (must be 64 hex characters).")
             else:
+                print()
 
-                warning("HASH MISMATCH")
+                if verify_integrity(
+                    file_hash,
+                    known_hash
+                ):
+                    complete("INTEGRITY MATCH")
+                else:
+                    warning("HASH MISMATCH")
 
         print()
 
@@ -364,11 +400,13 @@ def verify_file_integrity():
         "Evidence file path: "
     ).strip()
 
-    if not filename:
-
-        error("No file path entered.")
+    is_valid, validated_path = validate_file_path(filename)
+    if not is_valid:
+        error(validated_path)
         input("\nPress Enter to return...")
         return
+
+    filename = validated_path
 
     known_hash = input(
         f"{GREEN}spectra > {RESET}"
@@ -376,8 +414,12 @@ def verify_file_integrity():
     ).strip()
 
     if not known_hash:
-
         error("No hash entered.")
+        input("\nPress Enter to return...")
+        return
+
+    if not validate_sha256_hash(known_hash):
+        error("Invalid SHA-256 hash format (must be 64 hex characters).")
         input("\nPress Enter to return...")
         return
 
@@ -425,11 +467,8 @@ def verify_file_integrity():
             current_hash,
             known_hash
         ):
-
             complete("INTEGRITY MATCH")
-
         else:
-
             warning("HASH MISMATCH")
 
         print()
@@ -741,4 +780,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
