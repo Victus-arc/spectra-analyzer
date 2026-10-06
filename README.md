@@ -35,7 +35,9 @@ spectra-analyzer/
 ├── tests/
 │   └── test_safety.py
 ├── README.md
-└── .gitignore
+├── LICENSE
+├── .gitignore
+└── reports/
 ```
 
 ## Installation
@@ -113,7 +115,9 @@ Generated reports are saved in the `reports/` directory as text files.
 
 ## License
 
-This project is intended for educational and forensic-learning purposes.
+SPECTRA is open source and licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file for the full text.
 
 ## Future Improvements
 
