@@ -2,27 +2,41 @@
 
 ### Digital Evidence Analyzer
 
-SPECTRA is a Python-based, read-only digital evidence analysis toolkit designed for educational purposes.
+SPECTRA is a Python-based, read-only digital evidence analysis toolkit designed for educational use.
 
-It analyzes files without modifying the original evidence and generates structured analysis reports.
+It analyzes files without modifying the original evidence and generates structured analysis reports. The project is currently a terminal-based CLI tool.
 
 ## Features
 
 - SHA-256 file hashing
 - File metadata collection
 - File signature detection
-- Text and log analysis
-- Hash integrity verification
-- Evidence report generation
-- Multiple report storage
-- Terminal-based interface
+- Text analysis for supported text-based files
+- Integrity verification using known hashes
+- Structured report generation
+- Read-only evidence workflow
 
 ## Requirements
 
-- Python 3
-- Git
+- Python 3.x
+- Git (optional, for cloning the repository)
 
-No external Python packages are required.
+## Project Structure
+
+```text
+spectra-analyzer/
+├── spectra/
+│   ├── analyzer.py
+│   ├── hash_engine.py
+│   ├── metadata.py
+│   ├── report.py
+│   ├── spectra.py
+│   └── evidence.txt
+├── tests/
+│   └── test_safety.py
+├── README.md
+└── .gitignore
+```
 
 ## Installation
 
@@ -30,3 +44,82 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Victus-arc/spectra-analyzer.git
+cd spectra-analyzer
+```
+
+## Usage
+
+Run the CLI:
+
+```bash
+python spectra/spectra.py
+```
+
+From the menu, you can:
+
+1. Analyze Evidence
+2. Verify Integrity
+3. View Reports
+4. About SPECTRA
+
+## What SPECTRA Checks
+
+### File Hashing
+SPECTRA calculates the SHA-256 hash of the selected file.
+
+### Metadata Collection
+It reads basic file information such as:
+- filename
+- file size
+- modification time
+
+### File Signature Detection
+It detects common file types based on known magic numbers, including:
+- PNG
+- JPEG
+- PDF
+- ZIP
+
+### Text Analysis
+For supported text-based files, it calculates:
+- total lines
+- total words
+- total characters
+- empty line count
+
+### Integrity Verification
+You can compare a file's current SHA-256 value against a known-good hash.
+
+## Safety Notes
+
+This tool is designed to be read-only and safe by default. The code includes validation to help reduce common misuse:
+
+- invalid file paths are rejected
+- non-file paths are rejected
+- unreadable files are rejected
+- malformed SHA-256 values are rejected
+- oversized text files are prevented from causing excessive memory usage
+
+## Report Output
+
+Generated reports are saved in the `reports/` directory as text files.
+
+## Known Limitations
+
+- The project currently uses a terminal interface only
+- Deep analysis is focused on text-like files
+- Binary files are identified by signature, but not deeply parsed
+- Large files are limited for safety during text analysis
+
+## License
+
+This project is intended for educational and forensic-learning purposes.
+
+## Future Improvements
+
+Planned or possible improvements include:
+- GUI or web interface
+- richer file classification
+- better binary analysis
+- export to JSON or HTML
+- automated tests for more analysis scenarios
