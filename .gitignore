@@ -3,3 +3,7 @@ __pycache__/
 reports/
 evidence.txt
 .env
+.pytest_cache/
+venv/
+.venv/
+.DS_Store
