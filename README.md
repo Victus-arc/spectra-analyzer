@@ -4,21 +4,16 @@
 
 SPECTRA is a Python-based, read-only digital evidence analysis toolkit designed for educational and forensic-learning use.
 
-It analyzes files without modifying the original evidence and generates structured analysis reports. The project currently uses a terminal-based CLI interface.
+It analyzes files without modifying the original evidence and generates structured analysis reports. The current project focuses on a lightweight terminal-based workflow for hashing, metadata collection, signature detection, and basic text analysis.
 
 ## Features
 
 - SHA-256 file hashing
-- Multi-hash integrity checks (MD5, SHA-1, SHA-256, BLAKE2b)
 - File metadata collection
 - File signature detection
-- File type mismatch detection
 - Text analysis for supported text-based files
-- Printable string extraction
-- Entropy analysis
 - Integrity verification using known hashes
 - Structured report generation
-- JSON report export
 - Read-only evidence workflow
 
 ## Requirements
@@ -42,7 +37,8 @@ spectra-analyzer/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-└── reports/
+├── reports/
+└── requirements.txt
 ```
 
 ## Installation
@@ -72,15 +68,15 @@ From the menu, you can:
 ## What SPECTRA Checks
 
 ### File Hashing
-SPECTRA calculates the SHA-256 hash of the selected file and can also generate MD5, SHA-1, and BLAKE2b values.
+SPECTRA calculates the SHA-256 hash of the selected file.
 
 ### Metadata Collection
 It reads basic file information such as:
 - filename
 - file path
 - file size
-- created time
 - modified time
+- created time
 - accessed time
 - file extension
 
@@ -90,15 +86,6 @@ It detects common file types based on known magic numbers, including:
 - JPEG
 - PDF
 - ZIP
-
-### File Type Mismatch Detection
-It compares the file extension against the detected file signature to flag suspicious mismatches.
-
-### Strings Extraction
-It extracts printable ASCII strings from the file to help identify embedded text or markers.
-
-### Entropy Analysis
-It measures file randomness to help identify compressed, encrypted, or highly structured data.
 
 ### Text Analysis
 For supported text-based files, it calculates:
@@ -122,7 +109,7 @@ This tool is designed to be read-only and safe by default. The code includes val
 
 ## Report Output
 
-Generated reports are saved in the `reports/` directory as text or JSON files.
+Generated reports are saved in the `reports/` directory as text files.
 
 ## Known Limitations
 
@@ -135,12 +122,12 @@ Generated reports are saved in the `reports/` directory as text or JSON files.
 
 Planned enhancements for future versions of SPECTRA include:
 
-- Multi-hash integrity engine
-- File signature detection
-- Metadata extraction engine
-- File type mismatch detection
-- Strings extraction engine
-- Entropy analysis engine
+- multi-hash integrity checks
+- file type mismatch detection
+- printable string extraction
+- entropy analysis
+- JSON report export improvements
+- stronger forensic classification for binary containers
 
 ## License
 
@@ -150,7 +137,7 @@ See the [LICENSE](LICENSE) file for the full text.
 
 ## Future Improvements
 
-Planned or possible improvements include:
+Possible improvements include:
 - GUI or web interface
 - richer file classification
 - better binary analysis
