@@ -1,4 +1,7 @@
+import math
 import os
+import re
+from collections import Counter
 
 MAX_TEXT_FILE_SIZE = 50 * 1024 * 1024  # 50 MB safety cap for text analysis
 
@@ -55,3 +58,84 @@ def detect_file_signature(filename):
             return file_type
 
     return "Unknown / plain-text file"
+
+
+def detect_file_type_mismatch(filename):
+    """Compare the file extension against the detected file signature."""
+    _, extension = os.path.splitext(filename)
+    extension = extension.lower()
+    actual_type = detect_file_signature(filename)
+
+    extension_map = {
+        ".png": "PNG image",
+        ".jpg": "JPEG image",
+        ".jpeg": "JPEG image",
+        ".pdf": "PDF document",
+        ".zip": "ZIP archive",
+        ".txt": "Unknown / plain-text file",
+        ".md": "Unknown / plain-text file",
+        ".log": "Unknown / plain-text file",
+        ".py": "Unknown / plain-text file",
+        ".json": "Unknown / plain-text file",
+        ".csv": "Unknown / plain-text file",
+        ".xml": "Unknown / plain-text file",
+        ".html": "Unknown / plain-text file",
+        ".css": "Unknown / plain-text file",
+        ".js": "Unknown / plain-text file",
+        ".c": "Unknown / plain-text file",
+        ".cpp": "Unknown / plain-text file",
+        ".h": "Unknown / plain-text file",
+    }
+
+    expected_type = extension_map.get(extension)
+
+    if expected_type is None:
+        return False, "No known extension mapping is available for this file type."
+
+    if expected_type != actual_type:
+        return (
+            True,
+            f"Extension '{extension}' suggests '{expected_type}', but the file signature identifies '{actual_type}'.",
+        )
+
+    return False, "No mismatch detected."
+
+
+def extract_strings(filename, min_length=4, max_strings=None):
+    """Extract printable ASCII strings from a file."""
+    with open(filename, "rb") as file:
+        data = file.read()
+
+    if not data:
+        return []
+
+    pattern = rb"[\x20-\x7E]{%d,}" % min_length
+    matches = re.findall(pattern, data)
+    strings = [match.decode("ascii", "ignore") for match in matches]
+
+    if max_strings is not None:
+        strings = strings[:max_strings]
+
+    return strings
+
+
+def calculate_entropy_from_bytes(data):
+    """Compute Shannon entropy for a byte string."""
+    if not data:
+        return 0.0
+
+    counts = Counter(data)
+    length = len(data)
+    entropy = 0.0
+
+    for count in counts.values():
+        probability = count / length
+        entropy -= probability * math.log2(probability)
+
+    return entropy
+
+
+def calculate_entropy(filename):
+    """Return the entropy score for the contents of a file."""
+    with open(filename, "rb") as file:
+        return calculate_entropy_from_bytes(file.read())
