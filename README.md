@@ -131,17 +131,6 @@ Generated reports are saved in the `reports/` directory as text or JSON files.
 - Binary files are identified by signature, but not deeply parsed
 - Large files are limited for safety during text analysis
 
-## Roadmap
-
-Planned enhancements for future versions of SPECTRA include:
-
-- Multi-hash integrity engine
-- File signature detection
-- Metadata extraction engine
-- File type mismatch detection
-- Strings extraction engine
-- Entropy analysis engine
-
 ## License
 
 SPECTRA is open source and licensed under the MIT License.
