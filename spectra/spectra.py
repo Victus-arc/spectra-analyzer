@@ -117,6 +117,12 @@ def show_banner():
     print()
 
 
+def show_header():
+    print(f"{GREEN}{BOLD}SPECTRA | Digital Forensics Toolkit{RESET}")
+    print(f"{GRAY}Read-only digital evidence analysis{RESET}")
+    print()
+
+
 def show_status():
     print(f"{GRAY}┌──────────────────────────────────────────────────────────┐{RESET}")
     print(f"{GRAY}│{RESET} {GREEN}SYSTEM{RESET} : SPECTRA        {GRAY}│{RESET} {GREEN}MODE{RESET} : READ-ONLY")
@@ -344,8 +350,14 @@ def show_about():
 
 
 def main():
+    clear_screen()
+    show_banner()
+
     while True:
-        clear_screen(); show_banner(); show_status(); show_menu()
+        clear_screen()
+        show_header()
+        show_status()
+        show_menu()
         choice = input(f"{GREEN}spectra > {RESET}").strip().lower()
 
         if choice == "1":
