@@ -1,45 +1,25 @@
 # SPECTRA
-
 ### Digital Evidence Analyzer
 
-SPECTRA is a Python-based, read-only digital evidence analysis toolkit designed for educational and forensic-learning use.
+SPECTRA is a Python-based digital forensics and file analysis toolkit designed for educational and forensic-learning purposes.
 
-It analyzes files without modifying the original evidence and generates structured analysis reports. The current project focuses on a lightweight terminal-based workflow for hashing, metadata collection, signature detection, and basic text analysis.
+It provides a lightweight, read-only workflow for examining files, collecting metadata, detecting file signatures, calculating cryptographic hashes, and generating structured analysis reports.
 
 ## Features
 
-- SHA-256 file hashing
-- File metadata collection
-- File signature detection
-- Text analysis for supported text-based files
-- Integrity verification using known hashes
-- Structured report generation
-- Read-only evidence workflow
+- **SHA-256 Hashing** — Calculate cryptographic hashes for file integrity checks.
+- **Metadata Collection** — Extract basic file information, including size, timestamps, filename, and extension.
+- **File Signature Detection** — Identify common file types using file signatures (magic numbers).
+- **Text Analysis** — Analyze supported text files for lines, words, characters, and empty lines.
+- **Integrity Verification** — Compare calculated hashes against known values.
+- **Report Generation** — Generate structured text-based analysis reports.
+- **Read-Only Workflow** — Analyze original evidence without intentionally modifying its contents.
 
-## Requirements
+## Technology Stack
 
-- Python 3.x
-- Git (optional, for cloning the repository)
-
-## Project Structure
-
-```text
-spectra-analyzer/
-├── spectra/
-│   ├── analyzer.py
-│   ├── hash_engine.py
-│   ├── metadata.py
-│   ├── report.py
-│   ├── spectra.py
-│   └── evidence.txt
-├── tests/
-│   └── test_safety.py
-├── README.md
-├── LICENSE
-├── .gitignore
-├── reports/
-└── requirements.txt
-```
+- Python
+- Standard Python libraries
+- Git and GitHub
 
 ## Installation
 
@@ -50,96 +30,104 @@ git clone https://github.com/Victus-arc/spectra-analyzer.git
 cd spectra-analyzer
 ```
 
+Check your Python installation:
+
+```bash
+python --version
+```
+
 ## Usage
 
-Run the CLI:
+Run SPECTRA from the project root:
 
 ```bash
 python spectra/spectra.py
 ```
 
-From the menu, you can:
+Follow the terminal menu to access the available options:
 
 1. Analyze Evidence
 2. Verify Integrity
 3. View Reports
 4. About SPECTRA
 
-## What SPECTRA Checks
+## Analysis Capabilities
 
-### File Hashing
-SPECTRA calculates the SHA-256 hash of the selected file.
+### 1. File Hashing
+Calculates SHA-256 hashes to support file integrity verification.
 
-### Metadata Collection
-It reads basic file information such as:
-- filename
-- file path
-- file size
-- modified time
-- created time
-- accessed time
-- file extension
+### 2. Metadata Collection
+Collects basic file attributes, including:
+- Filename
+- File path
+- File size
+- Modified time
+- Created time
+- Accessed time
+- File extension
 
-### File Signature Detection
-It detects common file types based on known magic numbers, including:
-- PNG
-- JPEG
-- PDF
-- ZIP
+### 3. File Signature Detection
+Identifies supported file types using known signatures, including PNG, JPEG, PDF, and ZIP.
 
-### Text Analysis
-For supported text-based files, it calculates:
-- total lines
-- total words
-- total characters
-- empty line count
+### 4. Text Analysis
+Provides basic statistics for supported text-based files:
+- Total lines
+- Total words
+- Total characters
+- Empty line count
 
-### Integrity Verification
-You can compare a file's current SHA-256 value against a known-good hash.
+### 5. Integrity Verification
+Compares a file's current SHA-256 hash against a known-good hash.
 
-## Safety Notes
+## Safety Considerations
 
-This tool is designed to be read-only and safe by default. The code includes validation to help reduce common misuse:
+SPECTRA is designed around a read-only analysis workflow.
 
-- invalid file paths are rejected
-- non-file paths are rejected
-- unreadable files are rejected
-- malformed SHA-256 values are rejected
-- oversized text files are prevented from causing excessive memory usage
+Current validation includes:
+- Rejecting invalid file paths.
+- Rejecting directory paths where a file is expected.
+- Handling unreadable files.
+- Validating SHA-256 input.
+- Applying size limits to text analysis.
 
-## Report Output
-
-Generated reports are saved in the `reports/` directory as text files.
+Always work with authorized files and preserve original evidence.
 
 ## Known Limitations
 
-- The project currently uses a terminal interface only
-- Deep analysis is focused on text-like files
-- Binary files are identified by signature, but not deeply parsed
-- Large files are limited for safety during text analysis
+- Currently uses a command-line interface.
+- Deep analysis is focused on supported text-based files.
+- Binary files are identified by signature but are not deeply parsed.
+- Large text files are subject to analysis limits.
 
 ## Roadmap
 
-Planned enhancements for future versions of SPECTRA include:
+Potential future development includes:
 
-- multi-hash integrity checks
-- file type mismatch detection
-- printable string extraction
-- entropy analysis
-- JSON report export improvements
-- stronger forensic classification for binary containers
+- Multi-hash integrity verification.
+- File type mismatch detection.
+- Printable string extraction.
+- Entropy analysis.
+- Improved JSON and HTML report exports.
+- Stronger binary file classification.
+- Expanded automated test coverage.
+- GUI interface.
+
+## Testing
+
+SPECTRA includes automated tests.
+
+Run the test suite from the project root:
+
+```bash
+python -m pytest
+```
+
+*Note: Install pytest separately if it is not already available.*
 
 ## License
 
-SPECTRA is open source and licensed under the MIT License.
+SPECTRA is distributed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-See the [LICENSE](LICENSE) file for the full text.
+## Author
 
-## Future Improvements
-
-Possible improvements include:
-- GUI or web interface
-- richer file classification
-- better binary analysis
-- export to HTML
-- automated tests for more analysis scenarios
+Developed as an independent learning project focused on Python programming and digital forensics.
