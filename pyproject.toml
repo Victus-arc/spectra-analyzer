@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spectra-analyzer"
+version = "1.0.0"
+description = "A python-based digital forensics and file analysis tool"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Victus-arc" }]
+license = { text = "MIT" }
+dependencies = []
+
+[tool.setuptools]
+packages = ["spectra"]
