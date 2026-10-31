@@ -1,17 +1,32 @@
+"""SPECTRA command-line interface."""
+
 import os
 import re
 
-from hash_engine import calculate_hashes, calculate_sha256
-from metadata import get_file_metadata
-from analyzer import (
-    analyze_text_file,
-    calculate_entropy,
-    detect_file_signature,
-    detect_file_type_mismatch,
-    extract_strings,
-    verify_integrity,
-)
-from report import create_report
+try:
+    from .hash_engine import calculate_hashes, calculate_sha256
+    from .metadata import get_file_metadata
+    from .analyzer import (
+        analyze_text_file,
+        calculate_entropy,
+        detect_file_signature,
+        detect_file_type_mismatch,
+        extract_strings,
+        verify_integrity,
+    )
+    from .report import create_report
+except ImportError:  # pragma: no cover - allows direct script execution
+    from hash_engine import calculate_hashes, calculate_sha256
+    from metadata import get_file_metadata
+    from analyzer import (
+        analyze_text_file,
+        calculate_entropy,
+        detect_file_signature,
+        detect_file_type_mismatch,
+        extract_strings,
+        verify_integrity,
+    )
+    from report import create_report
 
 
 VERSION = "1.0"
@@ -69,7 +84,7 @@ def clear_screen():
 
 
 def print_line():
-    print(f"{GRAY}────────────────────────────────────────────────────────────{RESET}")
+    print(f"{GRAY}───────────────────────────────────────────────────────────{RESET}")
 
 
 def complete(message):
@@ -227,7 +242,7 @@ def verify_file_integrity():
     if not known_hash:
         error("No hash entered."); input("\nPress Enter to return..."); return
     if not validate_sha256_hash(known_hash):
-        error("Invalid SHA-256 hash format (must be 64 hex characters.")
+        error("Invalid SHA-256 hash format (must be 64 hex characters).")
         input("\nPress Enter to return..."); return
 
     try:
